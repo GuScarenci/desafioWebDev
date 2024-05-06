@@ -1,18 +1,21 @@
-// Seleção de elementos do DOM
-var nome = document.querySelector("#inputName");
-var nomeHelp = document.querySelector("#inputNameHelp");
+// Gustavo Moura Scarenci - 12547792
+// Site disponível em: https://guscarenci.github.io/desafioWebDev/
 
-var ano = document.querySelector("#inputYear");
-var anoHelp = document.querySelector("#inputYearHelp");
+// Seleção de elementos do DOM para interação e validação
+var nome = document.querySelector("#inputName");  // Seleciona o campo de entrada do nome
+var nomeHelp = document.querySelector("#inputNameHelp");  // Seleciona o elemento para mostrar ajuda ou erro para o nome
 
-var email = document.querySelector("#inputEmail");
-var emailHelp = document.querySelector("#inputEmailHelp");
+var ano = document.querySelector("#inputYear");  // Seleciona o campo de entrada do ano
+var anoHelp = document.querySelector("#inputYearHelp");  // Seleciona o elemento para mostrar ajuda ou erro para o ano
 
-var senha = document.querySelector("#inputPassword");
-var senhaHelp = document.querySelector("#inputPasswordHelp");
-var senhaStrengthMeter = document.querySelector("#passStrengthMeter");
+var email = document.querySelector("#inputEmail");  // Seleciona o campo de entrada do email
+var emailHelp = document.querySelector("#inputEmailHelp");  // Seleciona o elemento para mostrar ajuda ou erro para o email
 
-// Adição de event listeners para validação
+var senha = document.querySelector("#inputPassword");  // Seleciona o campo de entrada da senha
+var senhaHelp = document.querySelector("#inputPasswordHelp");  // Seleciona o elemento para mostrar ajuda ou erro para a senha
+var senhaStrengthMeter = document.querySelector("#passStrengthMeter");  // Seleciona o medidor de força da senha
+
+// Adicionando listeners de eventos que disparam funções de validação quando o usuário deixa o campo de entrada
 nome.addEventListener('focusout', validarNome);
 ano.addEventListener('focusout', validarAno);
 email.addEventListener('focusout', validarEmail);
@@ -20,12 +23,12 @@ senha.addEventListener('focusout', validarSenha);
 
 // Função de validação do Nome
 function validarNome(e) {
-    const regexNome = /^[A-Za-z]+$/;  // Apenas letras e espaços permitidos
+    const regexNome = /^[A-Za-z]+$/;  // Regex que permite apenas letras (não inclui espaços neste caso)
     if (!e.target.value.match(regexNome) || e.target.value.length <= 6) {
         nomeHelp.textContent = "Nome inválido. Deve conter apenas letras e ser maior que 6 caracteres.";
-        nomeHelp.style.color = "red";
+        nomeHelp.style.color = "red";  // Configura o texto de ajuda para vermelho em caso de erro
     } else {
-        nomeHelp.textContent = "";
+        nomeHelp.textContent = "";  // Limpa o texto de ajuda se o nome for válido
     }
 }
 
@@ -34,9 +37,9 @@ function validarAno(e) {
     const ano = parseInt(e.target.value);
     if (isNaN(ano) || ano < 1900 || ano > 2022) {
         anoHelp.textContent = "Ano inválido. Deve estar entre 1900 e 2022.";
-        anoHelp.style.color = "red";
+        anoHelp.style.color = "red";  // Mostra mensagem de erro em vermelho
     } else {
-        anoHelp.textContent = "";
+        anoHelp.textContent = "";  // Limpa o texto de ajuda se o ano for válido
     }
 }
 
@@ -56,14 +59,15 @@ function validarSenha(e) {
     const senha = e.target.value;
     const nome = document.querySelector("#inputName").value;
     const ano = document.querySelector("#inputYear").value;
-    const regexSenha = /^(?=.*[!@#%&+])(?=.*\d)(?=.*[a-zA-Z]).{6,20}$/;  // Critérios conforme especificado
+    const regexSenha = /^(?=.*[!@#%&+])(?=.*\d)(?=.*[a-zA-Z]).{6,20}$/;  // Regex que verifica a presença de caracteres especiais, dígitos e letras
 
+    // Verifica se a senha contém o nome ou o ano do usuário ou se não cumpre os requisitos da regex
     if (!senha.match(regexSenha) || senha.includes(nome) || senha.includes(ano)) {
         senhaHelp.textContent = "Senha inválida.";
         senhaHelp.style.color = "red";
-        senhaStrengthMeter.value = 0;
+        senhaStrengthMeter.value = 0;  // Zera o medidor de força da senha
     } else {
-        // Avaliação da força da senha
+        // Avalia a força da senha com base em critérios de comprimento e conteúdo
         const length = senha.length;
         const specialCount = (senha.match(/[!@#%&+]/g) || []).length;
         const numberCount = (senha.match(/\d/g) || []).length;
