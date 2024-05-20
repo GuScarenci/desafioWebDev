@@ -26,7 +26,18 @@ senha.addEventListener('focusout', validarSenha);
 
 form.addEventListener('submit', function (e) {
     e.preventDefault(); // Previne o comportamento padrão do formulário
-    if (validarNome({ target: nome }) && validarAno({ target: ano }) && validarEmail({ target: email }) && validarSenha({ target: senha })) {
+
+    // Inicializa um flag para determinar se todos os campos são válidos
+    var allValid = true;
+
+    // Valida cada campo e verifica se está preenchido
+    allValid = validarNome({ target: nome }) && allValid;
+    allValid = validarAno({ target: ano }) && allValid;
+    allValid = validarEmail({ target: email }) && allValid;
+    allValid = validarSenha({ target: senha }) && allValid;
+
+    // Verifica se todos os campos estão preenchidos
+    if (nome.value && ano.value && email.value && senha.value && allValid) {
         formMessage.textContent = "Seus dados foram registrados!";
         formMessage.style.color = "green";
     } else {
