@@ -37,6 +37,7 @@ form.addEventListener('submit', function (e) {
     allValid = validarSenha({ target: senha }) && allValid;
 
     // Verifica se todos os campos estão preenchidos
+    formMessage.textContent = "Seus dados não foram registrados!";
     if (nome.value && ano.value && email.value && senha.value && allValid) {
         formMessage.textContent = "Seus dados foram registrados!";
         formMessage.style.color = "green";
@@ -74,9 +75,10 @@ function validarAno(e) {
 
 // Função de validação do Email
 function validarEmail(e) {
-    const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.(br|com|net|org)$/;
+    // Atualizado regex para garantir apenas um "@"
+    const regexEmail = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.(br|com|net|org)$/;
     if (!e.target.value.match(regexEmail)) {
-        emailHelp.textContent = "Formato de email inválido. Deve terminar em .br, .com, .net, ou .org";
+        emailHelp.textContent = "Formato de email inválido!";
         emailHelp.style.color = "red";
         return false;
     } else {
